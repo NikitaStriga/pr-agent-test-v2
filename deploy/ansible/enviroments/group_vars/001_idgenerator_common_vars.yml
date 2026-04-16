@@ -1,0 +1,11 @@
+---
+ansible_become: True
+komus_vault_url: "WillBeDefinedAsExtraVar"
+idgenerator_secret_vault_root: "WillBeDefinedAsExtraVar"
+idgenerator_vault_token: "WillBeDefinedAsExtraVar"
+build_env: "WillBeDefinedAsExtraVar"
+
+build_number: "WillBeDefinedAsExtraVar"
+PG_PASSWORD: "WillBeDefinedAsExtraVar"
+SPRING_SECURITY_PASSWORD: "WillBeDefinedAsExtraVar"
+image_deploy: "WillBeDefinedAsExtraVar"

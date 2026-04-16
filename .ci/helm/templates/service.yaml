@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appName }}-{{ .Values.environment }}
+  namespace: {{ .Values.namespace }}-{{ .Values.environment }}
+  labels:
+    app.kubernetes.io/name: "{{ .Values.appName }}-{{ .Values.environment }}"
+spec:
+  type: {{ .Values.idgenerator.service.type }}
+  selector:
+    app: {{ .Values.appName }}-{{ .Values.environment }}
+  ports:
+  - name: {{ .Values.appName }}-{{ .Values.environment }}
+    port: {{ .Values.idgenerator.service.port }}
+    targetPort: {{ .Values.idgenerator.service.targetPort }}
+    {{- if .Values.idgenerator.service.nodePort }}
+    nodePort: {{ .Values.idgenerator.service.nodePort }}
+    {{- end }}

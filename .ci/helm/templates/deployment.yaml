@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.appName }}-{{ .Values.environment }}"
+  namespace: {{ .Values.namespace }}-{{ .Values.environment }}
+  labels:
+    app.kubernetes.io/name: "{{ .Values.appName }}-{{ .Values.environment }}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Values.appName }}-{{ .Values.environment }}"
+  replicas: {{ .Values.idgenerator.replicas }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.idgenerator.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.idgenerator.rollingUpdate.maxUnavailable }}
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.appName }}-{{ .Values.environment }}"
+      annotations:
+        timestamp: {{ now | quote }}
+        buildVersion: {{ .Values.environment }}-{{ .Values.build_no }}-{{ .Values.branch_name }}
+    spec:
+      containers:
+      - name: "{{ .Values.appName }}-{{ .Values.environment }}"
+        image: "{{ .Values.idgenerator.image }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.idgenerator.service.targetPort}}
+        readinessProbe:
+          tcpSocket:
+            port: {{ .Values.idgenerator.service.targetPort}}
+          initialDelaySeconds: {{ .Values.idgenerator.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.idgenerator.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.idgenerator.readinessProbe.failureThreshold }}
+        livenessProbe:
+          tcpSocket:
+            port: {{ .Values.idgenerator.service.targetPort}}
+          initialDelaySeconds: {{ .Values.idgenerator.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.idgenerator.livenessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.idgenerator.livenessProbe.failureThreshold }}
+        startupProbe:
+          tcpSocket:
+            port: {{ .Values.idgenerator.service.targetPort}}
+          failureThreshold: {{ .Values.idgenerator.startupProbe.failureThreshold }}
+          periodSeconds: {{ .Values.idgenerator.startupProbe.periodSeconds }}
+        {{- if .Values.idgenerator.environments }}
+        env:
+        {{- range $key, $value := .Values.idgenerator.environments }}
+        - name: {{ $key }}
+          value: "{{ $value }}"
+        {{- end }}
+        - name: SPRING.MAIN.BANNER-MODE
+          value: 'off'
+        {{- end }}
+        resources:
+          limits:
+            memory: {{ .Values.idgenerator.resources.limits.memory }}
+            cpu: {{ .Values.idgenerator.resources.limits.cpu }}
+            ephemeral-storage: {{ .Values.idgenerator.resources.limits.ephemeralStorage }}
+          requests:
+            cpu: {{ .Values.idgenerator.resources.requests.cpu }}
+            memory: {{ .Values.idgenerator.resources.requests.memory }}
+            ephemeral-storage: {{ .Values.idgenerator.resources.requests.ephemeralStorage }}

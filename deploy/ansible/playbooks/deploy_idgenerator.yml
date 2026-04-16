@@ -1,0 +1,4 @@
+---
+- hosts: idgenerator_app
+  roles:
+    - deploy_idgenerator

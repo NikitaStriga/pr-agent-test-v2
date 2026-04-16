@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  database:
+    image: gvenzl/oracle-xe:18.4.0-slim
+    container_name: oracle_container
+    environment:
+      ORACLE_PASSWORD: "system"
+    ports:
+      - "1521:1521"

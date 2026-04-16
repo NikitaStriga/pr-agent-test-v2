@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+
+  app:
+    ports:
+      - "8080:8080"
+    build:
+      dockerfile: .Dockerfile
+      context: .
+    container_name: app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/idGenerator
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING.SECURITY.USER.NAME=user
+      - SPRING.SECURITY.USER.PASSWORD=user

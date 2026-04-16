@@ -1,0 +1,14 @@
+---
+version: '3.3'
+services:
+  $APP_NAME:
+    ports:
+      - "8080:8080"
+    container_name: $APP_NAME
+    image: $IMAGE
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://r183-iddb1dev.komus.net:5432/idGenerator
+      - SPRING_DATASOURCE_USERNAME=$PG_USERNAME
+      - SPRING_DATASOURCE_PASSWORD=$PG_PASSWORD
+      - SPRING.SECURITY.USER.NAME=$SPRING_USER
+      - SPRING.SECURITY.USER.PASSWORD=$SPRING_PASSWORD

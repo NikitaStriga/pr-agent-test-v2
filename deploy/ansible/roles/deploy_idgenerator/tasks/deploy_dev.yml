@@ -1,0 +1,41 @@
+---
+- name: Create  temp app directory
+  file:
+    path: "/tmp/{{app_name}}_{{app_version}}_{{build_number}}"
+    mode: 0775
+    state: directory
+
+- name: copy Docker Compose files
+  copy:
+    src: /var/lib/jenkins/jobs/pipelines_in_develop/jobs/PRG029-1561.GENERATOR/workspace/deploy/ansible/docker-compose-dev.yml
+    dest: "/tmp/{{app_name}}_{{app_version}}_{{build_number}}"
+
+- name: pull an image
+  command: docker pull {{image_deploy}}
+
+- name: Create runing app directory
+  file:
+    path: "{{app_name}}_{{app_version}}"
+    mode: 0775
+    state: directory
+
+- name: Final state app dir
+  command: cp /tmp/{{app_name}}_{{app_version}}_{{build_number}}/docker-compose-dev.yml {{app_name}}_{{app_version}}/docker-compose.yml
+
+- name: Stop old docker compose
+  become_user: root
+  command: docker-compose down
+  args:
+    chdir: "{{app_name}}_{{app_version}}"
+  ignore_errors: yes
+
+- name: Start idgenerator
+  become_user: root
+  command: docker-compose up -d
+  args:
+    chdir: "{{app_name}}_{{app_version}}"
+
+- name: Clear temp dir
+  file:
+    path: "/tmp/{{app_name}}_{{app_version}}_{{build_number}}"
+    state: absent

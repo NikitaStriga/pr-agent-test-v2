@@ -1,0 +1,47 @@
+---
+- name: Create temp directory
+  file:
+    path: "/tmp/{{app_name}}{{app_versionr}}"
+    mode: 0775
+    state: directory
+
+- name: pull an image
+  docker_image:
+    name: "{{image_deploy}}"
+
+- name: Create app directory
+  file:
+    path: "{{app_name}}_{{app_version}}"
+    mode: 0775
+    owner: "root"
+    group: "root"
+    state: directory
+
+- name: Stop old docker compose
+  command: docker-compose down
+  args:
+    chdir: "{{app_name}}_{{app_version}}"
+  ignore_errors: yes
+
+- name: create docker compose file
+  unarchive:
+    src: "/tmp/{{app_name}}_{{build_number}}_{{build_env}}/{{deployment_package_name}}"
+    dest: "{{idgenerator}}_{{build_env}}"
+    remote_src: yes
+    owner: "root"
+    group: "root"
+
+- name: Copy .env file
+  template:
+    src: "{{app_name}}/.env.j2"
+    dest: "{{idgenerator}}_{{build_env}}/.env"
+
+- name: Start idgenerator
+  command: docker-compose up -d
+  args:
+    chdir: "{{idgenerator}}_{{build_env}}"
+
+- name: Clear temp dir
+  file:
+    path: "/tmp/{{app_name}}_{{build_number}}_{{build_env}}/"
+    state: absent

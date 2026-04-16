@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Внешний генератор Welcome Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>Подсистема генерации идентификаторов</h1>
+<p th:utext="${gitInfo}"></p>
+<a href="#" th:href="@{swagger-ui/index.html#}">Swagger</a>
+<p></p>
+<p>Подсистема генерации идентификаторов — это приложение Spring Boot, созданное с использованием Maven.</p>
+<p>При разработке была использована Java 11, база данных - oracle.</p>
+</body>
+</html>

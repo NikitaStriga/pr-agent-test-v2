@@ -1,0 +1,8 @@
+---
+- name: Import deploy_prod.yml if ENV prod
+  import_tasks: deploy_prod.yml
+  when: build_env == "prod"
+
+- name: Import deploy_dev.yml if ENV prod
+  import_tasks: deploy_dev.yml
+  when: build_env == "dev"

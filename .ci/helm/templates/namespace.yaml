@@ -1,0 +1,6 @@
+{{- if .Values.createNameSpace }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.namespace }}-{{ .Values.environment }}
+{{- end }}

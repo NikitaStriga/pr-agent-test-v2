@@ -1,0 +1,45 @@
+---
+namespace: idgenerator
+createNameSpace: true
+
+appName: idgenerator
+environment: prod
+
+idgenerator:
+  image: registry.komus.net/idgenerator:latest
+  replicas: 2
+  resources:
+    limits:
+      memory: 1Gi
+      cpu: 2
+      ephemeralStorage: "1Gi"
+    requests:
+      memory: 0.5Gi
+      cpu: 1
+      ephemeralStorage: "1Gi"
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 1
+  # environments: []
+    # Pass list with key:value, like this:
+    # - DBUSER: username
+    # - DBPASS: password
+  service:
+    type: NodePort
+    port: 8080
+    targetPort: 8080
+    nodePort: 32081
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    failureThreshold: 5
+  livenessProbe:
+    initialDelaySeconds: 15
+    periodSeconds: 20
+    failureThreshold: 3
+  startupProbe:
+    periodSeconds: 10
+    failureThreshold: 20
+
+ingress:
+  hostname: idgenerator.komus.net

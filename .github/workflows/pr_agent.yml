@@ -1,0 +1,49 @@
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+  issue_comment:
+    with_help: true
+
+jobs:
+  pr_agent_job:
+    runs-on: ubuntu-latest
+    permissions: # Важно для записи комментариев
+      pull-requests: write
+      issues: write
+      contents: read
+    name: Run PR Agent
+    steps:
+      - name: PR Agent action
+        uses: Codium-ai/pr-agent@main
+        env:
+          # Для Ollama ключ обычно не нужен, но LiteLLM может требовать любую строку
+          OPENAI_KEY: "ollama"
+          # Прямое указание базы именно для Ollama
+          OLLAMA.API_BASE: "https://hungry-flowers-dream.loca.lt"
+#          OLLAMA__API_BASE: "https://ed6e67aac74e0b.lhr.life"
+          # Обязательный префикс 'ollama/' перед названием модели
+          CONFIG.MODEL: "ollama/qwen-32k"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG.FALLBACK_MODELS: "[]"
+          CONFIG.MAX_CONTEXT_TOKENS: 32768
+          CONFIG.MODEL_MAX_TOKENS: 32768
+#          # Включает автоматическое описание при пуше новых коммитов
+#          GITHUB_ACTION_CONFIG.AUTO_DESCRIBE: "true"
+#          # Включает автоматическое ревью при пуше новых коммитов
+#          GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
+#          CONFIG.DUPLICATE_EXAMPLES: "true"
+          CONFIG.CUSTOM_MODEL_MAX_TOKENS: "32768" # Поднимите до 8к минимум
+#          LITELLM_LOG: "DEBUG"
+#          # Включение дебага
+#          LOG_LEVEL: "DEBUG"
+#          LITELLM_REQUEST_TIMEOUT: "600" # Тайм-аут в секундах (например, 10 минут)
+#          # Или через конфиг PR-Agent
+#          CONFIG.LITELLM.REQUEST_TIMEOUT: "600"
+#          # --- ДОБАВИТЬ ЭТИ СТРОКИ ---
+#          CONFIG.AI_TIMEOUT: "600"
+#          CONFIG.LITELLM.PARAMS.TIMEOUT: "600"
+#          # ---------------------------
+#          CONFIG.LITELLM.PARAMS.STREAM: "true"
+#          CONFIG__AI_TIMEOUT: "600"
+#          CONFIG__LITELLM__PARAMS__TIMEOUT: "600"
+#          CONFIG__LITELLM__PARAMS__STREAM: "true"

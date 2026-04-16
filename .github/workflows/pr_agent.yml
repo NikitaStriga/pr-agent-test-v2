@@ -47,3 +47,14 @@ jobs:
           CONFIG__AI_TIMEOUT: "600"
           CONFIG__LITELLM__PARAMS__TIMEOUT: "600"
           CONFIG__LITELLM__PARAMS__STREAM: "true"
+          # Добавляем инструкции ниже:
+          PR_REVIEWER.EXTRA_INSTRUCTIONS: |
+            - Verify that all new methods and classes have unit tests (JUnit/TestNG).
+            - Ensure there are no hardcoded API keys, secrets, or database credentials.
+            - Check for proper resource management (e.g., use of try-with-resources for Streams/IO).
+            - Verify adherence to Java naming conventions (PascalCase for classes, camelCase for methods/variables).
+            - Ensure that Exception handling is specific, not just catching generic 'Exception' or 'Throwable'.
+          PR_CODE_SUGGESTIONS.EXTRA_INSTRUCTIONS: |
+            - Focus on critical performance issues, thread safety, and memory leaks.
+            - Suggest modern Java features (Java 11/17/21) where appropriate (e.g., Optional, Records, Lambdas).
+            - Avoid nitpicking on minor style issues if they don't break functionality.

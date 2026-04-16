@@ -19,7 +19,7 @@ jobs:
           # Для Ollama ключ обычно не нужен, но LiteLLM может требовать любую строку
           OPENAI_KEY: "ollama"
           # Прямое указание базы именно для Ollama
-          OLLAMA.API_BASE: "https://kind-dingos-fold.loca.lt"
+          OLLAMA.API_BASE: "https://13458d196f3e0b.lhr.life"
 #          OLLAMA__API_BASE: "https://ed6e67aac74e0b.lhr.life"
           # Обязательный префикс 'ollama/' перед названием модели
           CONFIG.MODEL: "ollama/qwen-32k"

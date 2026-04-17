@@ -37,7 +37,7 @@ public class IncrementController
     {
         RangeDto nextIds = incrementService.getNextIds(generatorCode);
         logger.info("key:{};value:{},{}", generatorCode, nextIds.getStart(), nextIds.getCount());
-        return ResponseEntity.ok(nextIds);
+        return ResponseEntity.ok(incrementService.getNextIds(generatorCode));
     }
 
     @GetMapping("/ids")

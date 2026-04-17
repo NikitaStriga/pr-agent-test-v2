@@ -56,9 +56,11 @@ jobs:
             - Ensure that Exception handling is specific, not just catching generic 'Exception' or 'Throwable'.
             - ALL static variables must be in UPPER_CASE. If you see a static variable in lower case or camelCase, flag it as a naming violation.
             - Start every review with the phrase: "TEST MODE ACTIVE: Java Standards Check."
+            - @Tag annotations should not use russian language
           PR_CODE_SUGGESTIONS.EXTRA_INSTRUCTIONS: |
             - Focus on critical performance issues, thread safety, and memory leaks.
             - Suggest modern Java features (Java 11/17/21) where appropriate (e.g., Optional, Records, Lambdas).
             - Avoid nitpicking on minor style issues if they don't break functionality.
             - If a static variable is not UPPER_CASE, suggest a rename.
             - Add a comment: "Note: Static naming rule applied."
+            - if @Tag annotations has russian language suggest to change it to english

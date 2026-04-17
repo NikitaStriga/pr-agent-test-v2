@@ -47,6 +47,8 @@ jobs:
           CONFIG__AI_TIMEOUT: "600"
           CONFIG__LITELLM__PARAMS__TIMEOUT: "600"
           CONFIG__LITELLM__PARAMS__STREAM: "true"
+          CONFIG.PATCH_EXTRA_LINES_BEFORE: 100
+          CONFIG.PATCH_EXTRA_LINES_AFTER: 100
           # Добавляем инструкции ниже:
           PR_REVIEWER.EXTRA_INSTRUCTIONS: |
             - Verify that all new methods and classes have unit tests (JUnit/TestNG).

@@ -47,7 +47,7 @@ public class IncrementController
         List<IdIncrementDto> allIds = incrementService.getAll();
         logger.info("output: {}", allIds);
 
-        return ResponseEntity.ok(allIds);
+        return ResponseEntity.ok(incrementService.getAll());
     }
 
 }
